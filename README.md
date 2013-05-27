@@ -11,15 +11,23 @@ This plugin depends on [OCamlSpotter](http://opam.ocamlpro.com/pkg/ocamlspot.4.0
 You should install OCamlSpotter before using this plugin.
 
 
-INSTALLATION
+Installation
 ========================================
 If you use [gmarik/Vundle](https://github.com/gmarik/vundle)
-```
+```VimL
 Bundle 'cohama/the-ocamlspot.vim'
 ```
 
-You use [Shougo/NeoBundle](https://github.com/Shougo/neobundle.vim)
+If you use [Shougo/NeoBundle](https://github.com/Shougo/neobundle.vim)
 ```VimL
 NeoBundle 'cohama/the-ocamlspot.vim'
 ```
 
+or
+
+```VimL
+NeoBundleLazy 'cohama/the-ocamlspot.vim', {
+\ 'autoload' : {
+\   'filetypes' : 'ocaml'
+\ }}
+```
