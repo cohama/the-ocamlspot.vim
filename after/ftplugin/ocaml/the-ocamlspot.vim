@@ -19,7 +19,7 @@ function! s:preview_definition(ocamlspot_result)
     return
   endif
 
-  let spot_dict = the_ocamlspot#parse_spot(spot)
+  let spot_dict = the_ocamlspot#parse_path_range(spot)
 
   execute 'pedit +' . spot_dict.range.start[0] . ' ' . spot_dict.path
 endfunction
@@ -27,6 +27,19 @@ endfunction
 function! s:get_ocaml_type(ocamlspot_result)
   let type = the_ocamlspot#get_info(a:ocamlspot_result, 'Val', 'Type', 'Error')
   echo type
+
+  let tree = the_ocamlspot#get_info(a:ocamlspot_result, 'XTree')
+  let tree_dict = the_ocamlspot#parse_path_range(tree)
+  if empty(tree_dict)
+    return
+  endif
+
+  let range_regex = the_ocamlspot#range_to_regex(tree_dict.range)
+
+  if has_key(w:, 'tree_match')
+    call matchdelete(w:tree_match)
+  endif
+  let w:tree_match = matchadd('PmenuSel', range_regex)
 endfunction
 
 function! s:the_ocamlspot_main(query_type)

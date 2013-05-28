@@ -91,7 +91,7 @@ let s:testcase = vimtest#new('the_ocamlspot#range_to_regex')
     \ 'start' : ['1', '1'],
     \ 'end' : ['$', '$']
     \ }
-    call self.assert.equals('\v(%1l)\_.*', the_ocamlspot#range_to_regex(range))
+    call self.assert.equals('\v(%1l%1v)\_.*()', the_ocamlspot#range_to_regex(range))
   endfunction
 
 unlet s:testcase
