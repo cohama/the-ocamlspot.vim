@@ -8,14 +8,6 @@ function! the_ocamlspot#run_ocaml_spot(bufname_line_col)
   return the_ocamlspot#parse_result(result)
 endfunction
 
-function! the_ocamlspot#get_type_info(result_dict)
-  return the_ocamlspot#get_info(a:result_dict, 'Val', 'Type', 'Error')
-endfunction
-
-function! the_ocamlspot#get_spot_info(result_dict)
-  return the_ocamlspot#get_info(a:result_dict, 'Spot')
-endfunction
-
 function! the_ocamlspot#get_info(result_dict, ...)
   for desired_key in a:000
     if has_key(a:result_dict, desired_key)

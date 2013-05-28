@@ -11,7 +11,7 @@ function! s:current_buffer_cursor()
 endfunction
 
 function! s:preview_definition(ocamlspot_result)
-  let spot = the_ocamlspot#get_spot_info(a:ocamlspot_result)
+  let spot = the_ocamlspot#get_info(a:ocamlspot_result, 'Spot')
 
   if empty(spot)
     echo 'No definition found'
@@ -25,7 +25,7 @@ function! s:preview_definition(ocamlspot_result)
 endfunction
 
 function! s:get_ocaml_type(ocamlspot_result)
-  let type = the_ocamlspot#get_type_info(a:ocamlspot_result)
+  let type = the_ocamlspot#get_info(a:ocamlspot_result, 'Val', 'Type', 'Error')
   echo type
 endfunction
 

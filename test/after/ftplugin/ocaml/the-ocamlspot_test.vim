@@ -1,4 +1,4 @@
-let s:testcase = vimtest#new('the_ocamlspot#GetTypeInfo')
+let s:testcase = vimtest#new('the_ocamlspot#get_info')
 
   function! s:testcase.get_type_info_get_Val()
     let result_dict = {
@@ -6,7 +6,7 @@ let s:testcase = vimtest#new('the_ocamlspot#GetTypeInfo')
     \ 'Type': 'the Type',
     \ 'Dummy': 'just a dummy'
     \ }
-    call self.assert.equals('the Val', the_ocamlspot#get_type_info(result_dict))
+    call self.assert.equals('the Val', the_ocamlspot#get_info(result_dict, 'Val', 'Type', 'Error'))
   endfunction
 
   function! s:testcase.get_type_info_get_Type()
@@ -14,7 +14,7 @@ let s:testcase = vimtest#new('the_ocamlspot#GetTypeInfo')
     \ 'Type': 'the Type',
     \ 'Dummy': 'just a dummy'
     \ }
-    call self.assert.equals('the Type', the_ocamlspot#get_type_info(result_dict))
+    call self.assert.equals('the Type', the_ocamlspot#get_info(result_dict, 'Val', 'Type', 'Error'))
   endfunction
 
   function! s:testcase.get_type_info_known_error()
@@ -22,14 +22,14 @@ let s:testcase = vimtest#new('the_ocamlspot#GetTypeInfo')
     \ 'Dummy': 'just a dummy',
     \ 'Error': 'the known error'
     \ }
-    call self.assert.equals('the known error', the_ocamlspot#get_type_info(result_dict))
+    call self.assert.equals('the known error', the_ocamlspot#get_info(result_dict, 'Val', 'Type', 'Error'))
   endfunction
 
   function! s:testcase.get_type_info_unexpected_error()
     let result_dict = {
     \ 'Dummy': 'just a dummy'
     \ }
-    call self.assert.equals(0, the_ocamlspot#get_type_info(result_dict))
+    call self.assert.equals('', the_ocamlspot#get_info(result_dict, 'Val', 'Type'))
   endfunction
 
 unlet s:testcase
