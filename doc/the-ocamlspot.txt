@@ -26,7 +26,6 @@ License: The MIT License {{{
 CONTENTS  *the-ocamlspot-contents*
 
 Introduction    |the-ocamlspot-introduction|
-Commands        |the-ocamlspot-commands| 
 Mappings        |the-ocamlspot-mappings|
 Ohter features  |the-ocamlspot-other-features| 
 Configuration   |the-ocamlspot-configuration|
@@ -48,52 +47,58 @@ http://opam.ocamlpro.com/pkg/ocamlspot.4.00.1.2.1.2.html
 You should install OCamlSpotter before using this plugin.
 
 ==============================================================================
-COMMANDS                                              *the-ocamlspot-commands*
+MAPPINGS                                              *the-ocamlspot-mappings*
 
-:TheOCamlType                                                  *:TheOCamlType*
+n <Plug>(the-ocamlspot-type)
                 Indicates the type information of the term under the cursor.
 
-:TheOCamlDefPreview                                      *:TheOCamlDefPreview*
+n <Plug>(the-ocamlspot-def-preview)
                 Opens a preview window and shows the definition of the term
                 under the cursor.
 
 ==============================================================================
-MAPPINGS                                              *the-ocamlspot-mappings*
-
-n <Leader>ot    runs |:TheOCamlType| command.
-
-n <Leader>op    runs |:TheOCamlDefPreview| command.
-
-If you don't use these default mappings, define
-*g:the_ocamlspot_no_default_key_mappings* in your |vimrc|.
-
-==============================================================================
 OTHER FEATURES                                  *the-ocamlspot-other-features*
+
+Term highlighting
+
+  When <Plug>(the-ocamlspot-type) is triggered, text correspoing an evaluated
+  term is highlighted.
 
 Auto type indication 
 
-  When you do nothing in a certain time, |:TheOCamlType| command is
-  automatically run.
-  The waiting time is depends on 'updatetime'.
-
-  If you want to disable this feature, define
-  *g:the_ocamlspot_no_default_auto_commands* in your |vimrc|.
-
+  When you do nothing in a while, <Plug>(the-ocamlspot-type) is automatically
+  triggered.
+  This waiting time is depends on 'updatetime'.
 
 Balloon indication
 
   If you use vim with |GUI| and your vim was compiled with |+balloon_eval|,
-  type information is also indicated in balloon when you hovers the mouse
+  type information is also indicated in |balloon-eval| when you hovers the mouse
   cursor on a term.
-
-  If you want to disable this feature, define
-  *g:the_ocamlspot_no_balloon* in your |vimrc|.
 
 ==============================================================================
 CONFIGURATION                                    *the-ocamlspot-configuration*
 
-comming soon.
+Default key mappings
+
+  This plugin provides following default key mappings. If you want to disable
+  these mappings by default, define *g:the_ocamlspot_no_default_key_mappings*
+  in your |vimrc|.
+
+        {lhs}           {rhs}                              ~
+        ----------      ---------------------------------  ~
+        <Leader>ot      <Plug>(the-ocamlspot-type)
+        <Leader>op      <Plug>(the-ocamlspot-def-preview)
+
+Auto type indication 
+
+  If you want to disable this feature, define
+  *g:the_ocamlspot_no_default_auto_commands* in your |vimrc|.
+
+Balloon indication
+
+  If you want to disable this feature, define *g:the_ocamlspot_no_balloon* in
+  your |vimrc|.
 
 ==============================================================================
-vim:tw=78:ts=8:sts=8:ft=help:norl:fen:fdl=0:
-
+vim:tw=78:ts=8:sts=8:sw=8:ft=help:norl:fen:fdl=0:
