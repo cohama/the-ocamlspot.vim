@@ -38,10 +38,11 @@ augroup END
 function! s:the_ocaml_type_cursorhold()
   if !g:the_ocamlspot_no_default_auto_commands
     TheOCamlType
+    autocmd the-ocamlspot CursorMoved <buffer> call the_ocamlspot#clear_highlight() | autocmd! the-ocamlspot CursorMoved
   endif
 endfunction
 
-if g:the_ocamlspot_no_default_key_mappings
+if !g:the_ocamlspot_no_default_key_mappings
   nmap <buffer> <Leader>ot <Plug>(the-ocamlspot-type)
   nmap <buffer> <Leader>op <Plug>(the-ocamlspot-def-preview)
 endif

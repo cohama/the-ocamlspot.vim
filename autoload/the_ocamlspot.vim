@@ -19,6 +19,15 @@ function! the_ocamlspot#main(query_type)
   endtry
 endfunction
 
+function! the_ocamlspot#clear_highlight()
+  if exists('w:tree_match')
+    try
+      call matchdelete(w:tree_match)
+    catch
+    endtry
+  endif
+endfunction
+
 " get current [bufname, line, col]
 " col is work fine with multibyte and is decremented for differnece from Emacs.
 function! s:current_buffer_cursor()
@@ -70,9 +79,6 @@ function! s:get_ocaml_type(ocamlspot_result)
 
   let range_regex = s:range_to_regex(tree_dict.range)
 
-  if has_key(w:, 'tree_match')
-    call matchdelete(w:tree_match)
-  endif
   let w:tree_match = matchadd('PmenuSel', range_regex)
 endfunction
 
