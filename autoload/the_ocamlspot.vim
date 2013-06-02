@@ -164,6 +164,9 @@ endfunction
 
 " Balloon indication
 function! the_ocamlspot#balloon_spotter()
+  if g:the_ocamlspot_no_balloon
+    return ''
+  endif
   let target = s:balloon_buffer_cursor()
   let result = s:run_ocaml_spot(target)
   try

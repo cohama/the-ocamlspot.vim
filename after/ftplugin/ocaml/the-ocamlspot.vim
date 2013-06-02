@@ -11,6 +11,16 @@ if !executable('ocamlspot')
   finish
 endif
 
+if !exists('g:the_ocamlspot_no_default_auto_commands')
+  let g:the_ocamlspot_no_default_auto_commands = 0
+endif
+if !exists('g:the_ocamlspot_no_default_key_mappings')
+  let g:the_ocamlspot_no_default_key_mappings = 0
+endif
+if !exists('g:the_ocamlspot_no_balloon')
+  let g:the_ocamlspot_no_balloon = 0
+endif
+
 command! -buffer -nargs=0 TheOCamlType call the_ocamlspot#main('type')
 command! -buffer -nargs=0 TheOCamlDefPreview call the_ocamlspot#main('preview')
 
@@ -22,20 +32,22 @@ nnoremap <script> <Plug>(the-ocamlspot-def-preview) <SID>(the-ocamlspot-def-prev
 
 augroup the-ocamlspot
   autocmd!
-  if !get(g:, 'the_ocamlspot_no_default_auto_commands', 0)
-    autocmd CursorHold <buffer> TheOCamlType
-  endif
+  autocmd CursorHold <buffer> call s:the_ocaml_type_cursorhold()
 augroup END
 
-if !get(g:, 'the_ocamlspot_no_default_key_mappings', 0)
+function! s:the_ocaml_type_cursorhold()
+  if !g:the_ocamlspot_no_default_auto_commands
+    TheOCamlType
+  endif
+endfunction
+
+if g:the_ocamlspot_no_default_key_mappings
   nmap <buffer> <Leader>ot <Plug>(the-ocamlspot-type)
   nmap <buffer> <Leader>op <Plug>(the-ocamlspot-def-preview)
 endif
 
 if has('gui_running') && has('balloon_eval')
-  if !get(g:, 'the_ocamlspot_no_balloon', 0)
-    setlocal ballooneval balloonexpr=the_ocamlspot#balloon_spotter()
-  endif
+  setlocal ballooneval balloonexpr=the_ocamlspot#balloon_spotter()
 endif
 
 let &cpo = s:save_cpo
