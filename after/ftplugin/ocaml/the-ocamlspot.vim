@@ -30,9 +30,16 @@ nnoremap <SID>(the-ocamlspot-def-preview) :<C-u>call the_ocamlspot#main('preview
 nnoremap <script> <Plug>(the-ocamlspot-type) <SID>(the-ocamlspot-type)
 nnoremap <script> <Plug>(the-ocamlspot-def-preview) <SID>(the-ocamlspot-def-preview)
 
+function! s:define_highlights()
+  highlight default link TheOCamlSpotTree PmenuSel
+  highlight default link TheOCamlSpotSpot Search
+endfunction
+call s:define_highlights()
+
 augroup the-ocamlspot
   autocmd!
   autocmd CursorHold <buffer> call s:the_ocaml_type_cursorhold()
+  autocmd ColorScheme * call s:define_highlights()
 augroup END
 
 function! s:the_ocaml_type_cursorhold()

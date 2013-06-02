@@ -79,7 +79,7 @@ function! s:get_ocaml_type(ocamlspot_result)
 
   let range_regex = s:range_to_regex(tree_dict.range)
 
-  let w:tree_match = matchadd('PmenuSel', range_regex)
+  let w:tree_match = matchadd('TheOCamlSpotTree', range_regex)
 endfunction
 
 function! s:try_echo_ocaml_val(ocamlspot_result)
