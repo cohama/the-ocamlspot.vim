@@ -76,6 +76,9 @@ function! s:get_ocaml_type(ocamlspot_result)
   let tree = get(a:ocamlspot_result, 'XTree', '')
   call s:highlight_tree(tree, 'tree')
 
+  let tree = get(a:ocamlspot_result, 'Spot', '')
+  call s:highlight_tree(tree, 'spot')
+
 endfunction
 
 function! s:try_echo_ocaml_val(ocamlspot_result)
@@ -101,9 +104,15 @@ function! s:highlight_tree(tree, match_var_name)
   if empty(tree_dict)
     return
   endif
+  " highlight only current buffer
+  if tree_dict.path !=# expand('%:p')
+    return
+  endif
   let range_regex = s:range_to_regex(tree_dict.range)
 
-  let w:the_ocamlspot_hi_{a:match_var_name} = matchadd('TheOCamlSpotTree', range_regex)
+  let capitalized_varname = toupper(a:match_var_name[0]) . a:match_var_name[1:]
+  let g:Cap = capitalized_varname
+  let w:the_ocamlspot_hi_{a:match_var_name} = matchadd('TheOCamlSpot' . capitalized_varname, range_regex)
 endfunction
 
 " open preview window
@@ -133,6 +142,14 @@ function! s:parse_xtree(xtree) abort
   endif
 endfunction
 
+" It returns
+" {
+"   path: spotpath,
+"   range: {
+"     start: [sl, sc],
+"     end: [el, ec]
+"   }
+" }
 function! s:parse_path_range(spot) abort
   let matches = matchlist(a:spot, '\v\<(\f+):(all|[\-0-9lcb]+:[\-0-9lcb]+)\>')
   if empty(matches)
