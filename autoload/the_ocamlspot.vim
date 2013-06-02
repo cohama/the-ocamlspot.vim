@@ -20,12 +20,14 @@ function! the_ocamlspot#main(query_type)
 endfunction
 
 function! the_ocamlspot#clear_highlight()
-  if exists('w:tree_match')
+  for hivarname in ['the_ocamlspot_hi_tree', 'the_ocamlspot_hi_spot']
     try
-      call matchdelete(w:tree_match)
+      if exists('w:' . hivarname)
+        call matchdelete(get(w:, hivarname))
+      endif
     catch
     endtry
-  endif
+  endfor
 endfunction
 
 " get current [bufname, line, col]
@@ -72,14 +74,8 @@ function! s:get_ocaml_type(ocamlspot_result)
   endif
 
   let tree = get(a:ocamlspot_result, 'XTree', '')
-  let tree_dict = s:parse_path_range(tree)
-  if empty(tree_dict)
-    return
-  endif
+  call s:highlight_tree(tree, 'tree')
 
-  let range_regex = s:range_to_regex(tree_dict.range)
-
-  let w:tree_match = matchadd('TheOCamlSpotTree', range_regex)
 endfunction
 
 function! s:try_echo_ocaml_val(ocamlspot_result)
@@ -98,6 +94,16 @@ function! s:try_echo_ocaml_type(ocamlspot_result)
   else
     return 0
   endif
+endfunction
+
+function! s:highlight_tree(tree, match_var_name)
+  let tree_dict = s:parse_path_range(a:tree)
+  if empty(tree_dict)
+    return
+  endif
+  let range_regex = s:range_to_regex(tree_dict.range)
+
+  let w:the_ocamlspot_hi_{a:match_var_name} = matchadd('TheOCamlSpotTree', range_regex)
 endfunction
 
 " open preview window
