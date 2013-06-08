@@ -14,7 +14,7 @@ function! the_ocamlspot#main(query_type)
     if has_key(result, 'Error')
       echo result.Error
     else
-      echoerr 'Unexpected Error!'
+      echoerr 'Unexpected Error!' v:exception
     endif
   endtry
 endfunction
