@@ -32,7 +32,10 @@ nnoremap <script> <Plug>(the-ocamlspot-def-preview) <SID>(the-ocamlspot-def-prev
 
 function! s:define_highlights()
   highlight default link TheOCamlSpotTree PmenuSel
-  highlight default link TheOCamlSpotSpot Search
+  highlight default link TheOCamlSpotSpot MatchParen
+  highlight default link TheOCamlSpotTypeKind Title
+  highlight default link TheOCamlSpotVarName Identifier
+  highlight default link TheOCamlSpotType Type
 endfunction
 call s:define_highlights()
 

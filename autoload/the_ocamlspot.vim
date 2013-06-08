@@ -79,7 +79,20 @@ endfunction
 
 function! s:try_echo_ocaml_val(ocamlspot_result)
   if has_key(a:ocamlspot_result, 'Val')
-    echo 'Val: ' . a:ocamlspot_result.Val
+    let matches = matchlist(a:ocamlspot_result.Val, '\v(.{-})\ :\ (.+)')
+    let varname = matches[1]
+    let vartype = matches[2]
+    echohl TheOCamlSpotTypeKind
+    echon 'Val'
+    echohl None
+    echon ' : '
+    echohl TheOCamlSpotVarName
+    echon varname
+    echohl None
+    echon ' : '
+    echohl TheOCamlSpotType
+    echon vartype
+    echohl None
     return 1 " success
   else
     return 0
@@ -88,7 +101,13 @@ endfunction
 
 function! s:try_echo_ocaml_type(ocamlspot_result)
   if has_key(a:ocamlspot_result, 'Type')
-    echo 'Type: ' . a:ocamlspot_result.Type
+    echohl TheOCamlSpotTypeKind
+    echon 'Type'
+    echohl None
+    echon ' : '
+    echohl TheOCamlSpotType
+    echon a:ocamlspot_result.Type
+    echohl None
     return 1 " success
   else
     return 0
