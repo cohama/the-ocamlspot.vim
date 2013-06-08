@@ -20,13 +20,9 @@ function! the_ocamlspot#main(query_type)
 endfunction
 
 function! the_ocamlspot#clear_highlight()
-  for hivarname in ['the_ocamlspot_hi_tree', 'the_ocamlspot_hi_spot']
-    try
-      if exists('w:' . hivarname)
-        call matchdelete(get(w:, hivarname))
-      endif
-    catch
-    endtry
+  let highlights = filter(getmatches(), 'v:val.group =~# "TheOCamlSpot"')
+  for h in highlights
+    call matchdelete(h.id)
   endfor
 endfunction
 
@@ -74,10 +70,10 @@ function! s:get_ocaml_type(ocamlspot_result)
   endif
 
   let tree = get(a:ocamlspot_result, 'XTree', '')
-  call s:highlight_tree(tree, 'tree')
+  call s:highlight_tree(tree, 'Tree')
 
   let tree = get(a:ocamlspot_result, 'Spot', '')
-  call s:highlight_tree(tree, 'spot')
+  call s:highlight_tree(tree, 'Spot')
 
 endfunction
 
@@ -99,7 +95,7 @@ function! s:try_echo_ocaml_type(ocamlspot_result)
   endif
 endfunction
 
-function! s:highlight_tree(tree, match_var_name)
+function! s:highlight_tree(tree, hi_group)
   let tree_dict = s:parse_path_range(a:tree)
   if empty(tree_dict)
     return
@@ -110,9 +106,7 @@ function! s:highlight_tree(tree, match_var_name)
   endif
   let range_regex = s:range_to_regex(tree_dict.range)
 
-  let capitalized_varname = toupper(a:match_var_name[0]) . a:match_var_name[1:]
-  let g:Cap = capitalized_varname
-  let w:the_ocamlspot_hi_{a:match_var_name} = matchadd('TheOCamlSpot' . capitalized_varname, range_regex)
+  call matchadd('TheOCamlSpot' . a:hi_group, range_regex)
 endfunction
 
 " open preview window
