@@ -1,5 +1,30 @@
 " requre vim-scall
 
+let s:testcase = vimtest#new('the_ocamlspot#parse_result')
+
+  function! s:testcase.parse_result_normal_form()
+    let result = "Val: hoge fuga\nType: foo bar"
+    call self.assert.equals({
+    \ 'Val' : 'hoge fuga',
+    \ 'Type' : 'foo bar'
+    \ }, Scall('the_ocamlspot:parse_result', result))
+  endfunction
+
+  function! s:testcase.parse_result_no_result()
+    let result = "there is no result"
+    call self.assert.equals({}, Scall('the_ocamlspot:parse_result', result))
+  endfunction
+
+  function! s:testcase.parse_result_double_line_form()
+    let result = "Val: hoge fuga\n   piyo\nType: foo bar"
+    call self.assert.equals({
+    \ 'Val' : 'hoge fuga piyo',
+    \ 'Type' : 'foo bar'
+    \ }, Scall('the_ocamlspot:parse_result', result))
+  endfunction
+
+unlet s:testcase
+
 let s:testcase = vimtest#new('the_ocamlspot#parse_path_range')
 
   function! s:testcase.parse_range_lxxxcxxxbxxx_form()

@@ -43,7 +43,7 @@ function! s:run_ocaml_spot(bufname_line_col)
   return s:parse_result(result)
 endfunction
 
-" parse result dictionary from ocamlspot result
+" create result dictionary from ocamlspot result
 function! s:parse_result(result)
   let result_dict = {}
   for line in split(a:result, "\n")
@@ -52,6 +52,13 @@ function! s:parse_result(result)
       let key = matches[1]
       let value = matches[2]
       let result_dict[key] = value
+      let last_set_key = key
+    else
+      " search for wrapped line
+      let wrapped_line = matchlist(line, '\v^\s+(\S.*)')
+      if !empty(wrapped_line) && exists('last_set_key')
+        let result_dict[key] = result_dict[key] . ' ' . wrapped_line[1]
+      endif
     endif
   endfor
   return result_dict
