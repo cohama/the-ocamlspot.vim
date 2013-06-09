@@ -22,13 +22,17 @@ if !exists('g:the_ocamlspot_no_balloon')
 endif
 
 command! -buffer -nargs=0 TheOCamlType call the_ocamlspot#main('type')
-command! -buffer -nargs=0 TheOCamlDefPreview call the_ocamlspot#main('preview')
+command! -buffer -nargs=0 TheOCamlDefPreview call the_ocamlspot#main('def', 'pedit')
+command! -buffer -nargs=0 TheOCamlDefSplit call the_ocamlspot#main('def', 'split')
+command! -buffer -nargs=0 TheOCamlDefVSplit call the_ocamlspot#main('def', 'vsplit')
+command! -buffer -nargs=0 TheOCamlDefTab call the_ocamlspot#main('def', 'tabedit')
 
-nnoremap <SID>(the-ocamlspot-type) :<C-u>call the_ocamlspot#main('type')<CR>
-nnoremap <SID>(the-ocamlspot-def-preview) :<C-u>call the_ocamlspot#main('preview')<CR>
 
-nnoremap <script> <Plug>(the-ocamlspot-type) <SID>(the-ocamlspot-type)
-nnoremap <script> <Plug>(the-ocamlspot-def-preview) <SID>(the-ocamlspot-def-preview)
+nnoremap <script> <Plug>(the-ocamlspot-type)        :<C-u>TheOCamlType<CR>
+nnoremap <script> <Plug>(the-ocamlspot-def-preview) :<C-u>TheOCamlDefPreview<CR>
+nnoremap <script> <Plug>(the-ocamlspot-def-split)   :<C-u>TheOCamlDefSplit<CR>
+nnoremap <script> <Plug>(the-ocamlspot-def-vsplit)  :<C-u>TheOCamlDefVSplit<CR>
+nnoremap <script> <Plug>(the-ocamlspot-def-tab)     :<C-u>TheOCamlDefTab<CR>
 
 function! s:define_highlights()
   highlight default link TheOCamlSpotTree PmenuSel

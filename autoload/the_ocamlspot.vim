@@ -1,13 +1,13 @@
 " the-ocamlspot entry point
-function! the_ocamlspot#main(query_type)
+function! the_ocamlspot#main(query_type, ...)
   let target = s:current_buffer_cursor()
   let result = s:run_ocaml_spot(target)
 
   try
     if a:query_type ==# 'type'
       call s:get_ocaml_type(result)
-    elseif a:query_type ==# 'preview'
-      call s:preview_definition(result)
+    elseif a:query_type ==# 'def'
+      call s:open_definition(result, a:1)
     endif
   catch
     let g:Result = result
@@ -20,6 +20,10 @@ function! the_ocamlspot#main(query_type)
 endfunction
 
 function! the_ocamlspot#clear_highlight()
+  if get(s:, 'clear_highlight_discard_once', 0)
+    let s:clear_highlight_discard_once = 0
+    return
+  endif
   let highlights = filter(getmatches(), 'v:val.group =~# "TheOCamlSpot"')
   for h in highlights
     call matchdelete(h.id)
@@ -136,7 +140,7 @@ function! s:highlight_tree(tree, hi_group)
 endfunction
 
 " open preview window
-function! s:preview_definition(ocamlspot_result)
+function! s:open_definition(ocamlspot_result, open_cmd)
   let tree = get(a:ocamlspot_result, 'XTree', '')
   call s:highlight_tree(tree, 'Tree')
 
@@ -150,14 +154,21 @@ function! s:preview_definition(ocamlspot_result)
 
   let spot_dict = s:parse_path_range(spot)
 
-  let line = spot_dict.range.start[0]
+  if a:open_cmd ==# 'pedit'
 
-  let clear_hi_cmd = 'call\ the_ocamlspot#clear_highlight()'
+    let line = spot_dict.range.start[0]
+    let clear_hi_cmd = 'call\ the_ocamlspot#clear_highlight()'
+    let escaped_range_regex = escape(s:range_to_regex(spot_dict.range), '\')
 
-  let escaped_range_regex = escape(s:range_to_regex(spot_dict.range), '\')
-  let highlight_cmd = 'call\ matchadd("TheOCamlSpotSpot",''' . escaped_range_regex . "')"
+    let highlight_cmd = 'call\ matchadd("TheOCamlSpotSpot",''' . escaped_range_regex . "')"
+    execute a:open_cmd . ' +' . line . '|' . clear_hi_cmd . '|' . highlight_cmd . ' ' . spot_dict.path
 
-  execute 'pedit +' . line . '|' . clear_hi_cmd . '|' . highlight_cmd . ' ' . spot_dict.path
+  else
+    let s:clear_highlight_discard_once = 1
+    execute a:open_cmd . ' ' . spot_dict.path
+    call cursor(spot_dict.range.start[0], spot_dict.range.start[1] + 1)
+    call s:highlight_tree(spot, 'Spot')
+  endif
 endfunction
 
 function! s:parse_xtree(xtree) abort
