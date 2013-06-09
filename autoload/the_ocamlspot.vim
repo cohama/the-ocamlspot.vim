@@ -140,7 +140,14 @@ function! s:preview_definition(ocamlspot_result)
 
   let spot_dict = s:parse_path_range(spot)
 
-  execute 'pedit +' . spot_dict.range.start[0] . ' ' . spot_dict.path
+  let line = spot_dict.range.start[0]
+
+  let clear_hi_cmd = 'call\ the_ocamlspot#clear_highlight()'
+
+  let escaped_range_regex = escape(s:range_to_regex(spot_dict.range), '\')
+  let highlight_cmd = 'call\ matchadd("TheOCamlSpotSpot",''' . escaped_range_regex . "')"
+
+  execute 'pedit +' . line . '|' . clear_hi_cmd . '|' . highlight_cmd . ' ' . spot_dict.path
 endfunction
 
 function! s:parse_xtree(xtree) abort
