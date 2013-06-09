@@ -137,6 +137,9 @@ endfunction
 
 " open preview window
 function! s:preview_definition(ocamlspot_result)
+  let tree = get(a:ocamlspot_result, 'XTree', '')
+  call s:highlight_tree(tree, 'Tree')
+
   let spot = get(a:ocamlspot_result, 'Spot', '')
 
   if empty(spot)
