@@ -10,9 +10,17 @@ This plugin depends on [OCamlSpotter](http://opam.ocamlpro.com/pkg/ocamlspot.4.0
 
 You should install OCamlSpotter before using this plugin.
 
+Screen Shots
+----------------------------------------
+
+### Indicate Type
+![Indicate type](http://gyazo.com/8624b5f39ed10b0679ba6d5616afd64f)
+
+### Jump to Definition
+![Jump to definition](http://gyazo.com/41f4cc49cdfe87b40fab60d89ee28013)
 
 Installation
-========================================
+----------------------------------------
 If you use [gmarik/Vundle](https://github.com/gmarik/vundle)
 ```VimL
 Bundle 'cohama/the-ocamlspot.vim'
