@@ -26,6 +26,7 @@ License: The MIT License {{{
 CONTENTS  *the-ocamlspot-contents*
 
 Introduction    |the-ocamlspot-introduction|
+Commands        |the-ocamlspot-commands|
 Mappings        |the-ocamlspot-mappings|
 Ohter features  |the-ocamlspot-other-features| 
 Configuration   |the-ocamlspot-configuration|
@@ -47,14 +48,43 @@ http://opam.ocamlpro.com/pkg/ocamlspot.4.00.1.2.1.2.html
 You should install OCamlSpotter before using this plugin.
 
 ==============================================================================
-MAPPINGS                                              *the-ocamlspot-mappings*
+COMMANDS                                              *the-ocamlspot-commands*
 
-n <Plug>(the-ocamlspot-type)
+:TheOCamlType                                                  *:TheOCamlType*
                 Indicates the type information of the term under the cursor.
 
-n <Plug>(the-ocamlspot-def-preview)
+:TheOCamlDefPreview                                      *:TheOCamlDefPreview*
                 Opens a preview window and shows the definition of the term
                 under the cursor.
+
+:TheOCamlDefEdit                                            *:TheOCamlDefEdit*
+                Jumps to the definition of the term under the cursor by using
+                |edit| command.
+
+:TheOCamlDefSplit                                          *:TheOCamlDefSplit*
+                Like :TheOCamlDefEdit but use |split|.
+
+:TheOCamlDefVSplit                                        *:TheOCamlDefVSplit*
+                Like :TheOCamlDefEdit but use |vsplit|.
+
+:TheOCamlDefTab                                              *:TheOCamlDefTab*
+                Like :TheOCamlDefEdit but use |tabedit|.
+
+==============================================================================
+MAPPINGS                                              *the-ocamlspot-mappings*
+
+n <Plug>(the-ocamlspot-type)                      *<Plug>(the-ocamlspot-type)*
+                Same as :TheOCamlType. <Leader>ot is mapped by default.
+
+n <Plug>(the-ocamlspot-def-preview)        *<Plug>(the-ocamlspot-def-preview)*
+                Same as :TheOCamlDefPreview. <Leader>op is mapped by default.
+
+n <Plug>(the-ocamlspot-def-edit)              *<Plug>(the-ocamlspot-def-edit)*
+n <Plug>(the-ocamlspot-def-split)          *<Plug>(the-ocamlspot-def-preview)*
+n <Plug>(the-ocamlspot-def-vsplit))        *<Plug>(the-ocamlspot-def-preview)*
+n <Plug>(the-ocamlspot-def-tab)            *<Plug>(the-ocamlspot-def-preview)*
+                Each are same as their correspoing definition jump commands.
+                There is no default mapping.
 
 ==============================================================================
 OTHER FEATURES                                  *the-ocamlspot-other-features*
@@ -99,6 +129,48 @@ Balloon indication
 
   If you want to disable this feature, define *g:the_ocamlspot_no_balloon* in
   your |vimrc|.
+
+Customize highlighting color
+
+  Of course you can customize the color of highlighting. The following
+  highlight group is defined.
+
+    TheOCamlSpotTree                                        *TheOCamlSpotTree*
+        The color of a term under the cursor. This links |PmenuSel| by
+        default.
+
+    TheOCamlSpotSpot                                        *TheOCamlSpotSpot*
+        The color of a definition. This links |MatchParen| by default.
+
+  Yes. You can define these highlight group in your |vimrc|.
+
+Example
+>
+        " disable default mappings
+        let g:the_ocamlspot_no_default_key_mappings = 1
+
+        " your settings are enabled when you open ocaml-type buffer.
+        autocmd FileType ocaml call s:my_the_ocamlspot_map()
+        function! s:the_ocamlspot_map()
+           nnoremap <buffer> <M-i> <Plug>(the-ocamlspot-type)
+           nnoremap <buffer> <M-p> <Plug>(the-ocamlspot-def-preview)
+           nnoremap <buffer> <M-e> <Plug>(the-ocamlspot-def-edit)
+           nnoremap <buffer> <M-s> <Plug>(the-ocamlspot-def-split)
+           nnoremap <buffer> <M-v> <Plug>(the-ocamlspot-def-vsplit)
+           nnoremap <buffer> <M-t> <Plug>(the-ocamlspot-def-tab))
+        endfunction
+
+        " highlight command should be called in autocmd
+        autocmd ColorScheme,VimEnter * call s:the_ocamlspot_highlight()
+        function! s:the_ocamlspot_highlight()
+          " in terminal
+          highlight TheOCamlSpotTree cterm=bold ctermbg=17
+
+          " in gui
+          " highlight TheOCamlSpotSpot gui=bold guibg=#001144
+        endfunction
+<
+
 
 ==============================================================================
 vim:tw=78:ts=8:sts=8:sw=8:ft=help:norl:fen:fdl=0:
