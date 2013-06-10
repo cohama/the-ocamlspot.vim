@@ -26,13 +26,14 @@ command! -buffer -nargs=0 TheOCamlDefPreview call the_ocamlspot#main('def', 'ped
 command! -buffer -nargs=0 TheOCamlDefSplit call the_ocamlspot#main('def', 'split')
 command! -buffer -nargs=0 TheOCamlDefVSplit call the_ocamlspot#main('def', 'vsplit')
 command! -buffer -nargs=0 TheOCamlDefTab call the_ocamlspot#main('def', 'tabedit')
-
+command! -buffer -nargs=0 TheOCamlDefEdit call the_ocamlspot#main('def', 'edit')
 
 nnoremap <script> <Plug>(the-ocamlspot-type)        :<C-u>TheOCamlType<CR>
 nnoremap <script> <Plug>(the-ocamlspot-def-preview) :<C-u>TheOCamlDefPreview<CR>
 nnoremap <script> <Plug>(the-ocamlspot-def-split)   :<C-u>TheOCamlDefSplit<CR>
 nnoremap <script> <Plug>(the-ocamlspot-def-vsplit)  :<C-u>TheOCamlDefVSplit<CR>
 nnoremap <script> <Plug>(the-ocamlspot-def-tab)     :<C-u>TheOCamlDefTab<CR>
+nnoremap <script> <Plug>(the-ocamlspot-def-edit)     :<C-u>TheOCamlDefEdit<CR>
 
 function! s:define_highlights()
   highlight default link TheOCamlSpotTree PmenuSel
