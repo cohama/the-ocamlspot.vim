@@ -165,7 +165,7 @@ function! s:open_definition(ocamlspot_result, open_cmd)
 
   else
     let s:clear_highlight_discard_once = 1
-    execute a:open_cmd . ' ' . spot_dict.path
+    keepjumps execute a:open_cmd . ' ' . spot_dict.path
     call cursor(spot_dict.range.start[0], spot_dict.range.start[1] + 1)
     call s:highlight_tree(spot, 'Spot')
   endif
