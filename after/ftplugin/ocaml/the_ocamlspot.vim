@@ -14,6 +14,9 @@ endif
 if !exists('g:the_ocamlspot_no_default_auto_commands')
   let g:the_ocamlspot_no_default_auto_commands = 0
 endif
+if !exists('g:the_ocamlspot_auto_type_always')
+  let g:the_ocamlspot_auto_type_always = 0
+endif
 if !exists('g:the_ocamlspot_no_default_key_mappings')
   let g:the_ocamlspot_no_default_key_mappings = 0
 endif
@@ -47,16 +50,10 @@ call s:define_highlights()
 augroup the-ocamlspot
   autocmd! ColorScheme *
   autocmd! * <buffer>
-  autocmd CursorHold <buffer> call s:the_ocaml_type_cursorhold()
+  autocmd CursorHold <buffer> call the_ocamlspot#auto_type()
   autocmd CursorMoved <buffer> call the_ocamlspot#clear_highlight()
   autocmd ColorScheme * call s:define_highlights()
 augroup END
-
-function! s:the_ocaml_type_cursorhold()
-  if !g:the_ocamlspot_no_default_auto_commands
-    TheOCamlType
-  endif
-endfunction
 
 if !g:the_ocamlspot_no_default_key_mappings
   nmap <buffer> <Leader>ot <Plug>(the-ocamlspot-type)

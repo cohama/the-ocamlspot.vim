@@ -98,7 +98,9 @@ Auto type indication
 
   When you do nothing in a while, <Plug>(the-ocamlspot-type) is automatically
   triggered.
-  This waiting time is depends on 'updatetime'.
+  This waiting time depends on 'updatetime'.
+  If the cursor line is include in the quickfix list, the location list or the
+  syntastic error list, auto type indication is temporally disabled.
 
 Balloon indication
 
@@ -124,6 +126,9 @@ Auto type indication
 
   If you want to disable this feature, define
   *g:the_ocamlspot_no_default_auto_commands* in your |vimrc|.
+
+  If you do not want to disable auto type indication on an error line, define
+  *g:the_ocamlspot_auto_type_always* in your |vimrc|.
 
 Balloon indication
 

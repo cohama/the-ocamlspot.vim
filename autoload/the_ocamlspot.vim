@@ -19,6 +19,23 @@ function! the_ocamlspot#main(query_type, ...)
   endtry
 endfunction
 
+function! the_ocamlspot#auto_type()
+  if g:the_ocamlspot_no_default_auto_commands
+    return
+  endif
+
+  if g:the_ocamlspot_auto_type_always
+    call the_ocamlspot#main('type')
+  else
+    let allerrors = getqflist() + getloclist(0) + get(b:, 'syntastic_loclist', [])
+    let current_line = line('.')
+    let on_line = filter(copy(allerrors), 'v:val.lnum == ' . current_line)
+    if len(on_line) == 0
+      call the_ocamlspot#main('type')
+    endif
+  endif
+endfunction
+
 function! the_ocamlspot#clear_highlight()
   if get(s:, 'clear_highlight_discard_once', 0)
     let s:clear_highlight_discard_once = 0
