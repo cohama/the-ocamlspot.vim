@@ -80,9 +80,9 @@ n <Plug>(the-ocamlspot-def-preview)        *<Plug>(the-ocamlspot-def-preview)*
                 Same as :TheOCamlDefPreview. <Leader>op is mapped by default.
 
 n <Plug>(the-ocamlspot-def-edit)              *<Plug>(the-ocamlspot-def-edit)*
-n <Plug>(the-ocamlspot-def-split)          *<Plug>(the-ocamlspot-def-preview)*
-n <Plug>(the-ocamlspot-def-vsplit))        *<Plug>(the-ocamlspot-def-preview)*
-n <Plug>(the-ocamlspot-def-tab)            *<Plug>(the-ocamlspot-def-preview)*
+n <Plug>(the-ocamlspot-def-split)            *<Plug>(the-ocamlspot-def-split)*
+n <Plug>(the-ocamlspot-def-vsplit))         *<Plug>(the-ocamlspot-def-vsplit)*
+n <Plug>(the-ocamlspot-def-tab)                *<Plug>(the-ocamlspot-def-tab)*
                 Each are same as their correspoing definition jump commands.
                 There is no default mapping.
 
