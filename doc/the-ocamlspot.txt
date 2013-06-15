@@ -125,7 +125,9 @@ Default key mappings
 Auto type indication 
 
   If you want to disable this feature, define
-  *g:the_ocamlspot_no_default_auto_commands* in your |vimrc|.
+  *g:the_ocamlspot_disable_auto_type* in your |vimrc|.
+
+  (*g:the_ocamlspot_no_default_auto_commands* is deprecated. Do not use it.)
 
   If you do not want to disable auto type indication on an error line, define
   *g:the_ocamlspot_auto_type_always* in your |vimrc|.

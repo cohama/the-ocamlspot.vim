@@ -11,8 +11,12 @@ if !executable('ocamlspot')
   finish
 endif
 
-if !exists('g:the_ocamlspot_no_default_auto_commands')
-  let g:the_ocamlspot_no_default_auto_commands = 0
+if exists('g:the_ocamlspot_no_default_auto_commands')
+  echoerr "'g:the_ocamlspot_no_default_auto_commands' is deprecated. Use 'g:the_ocamlspot_disable_auto_type'."
+endif
+
+if !exists('g:the_ocamlspot_disable_auto_type')
+  let g:the_ocamlspot_disable_auto_type = 0
 endif
 if !exists('g:the_ocamlspot_auto_type_always')
   let g:the_ocamlspot_auto_type_always = 0

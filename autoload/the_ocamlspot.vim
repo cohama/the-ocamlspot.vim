@@ -20,7 +20,7 @@ function! the_ocamlspot#main(query_type, ...)
 endfunction
 
 function! the_ocamlspot#auto_type()
-  if g:the_ocamlspot_no_default_auto_commands
+  if g:the_ocamlspot_disable_auto_type
     return
   endif
 
