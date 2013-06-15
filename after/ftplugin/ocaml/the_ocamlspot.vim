@@ -48,8 +48,7 @@ endfunction
 call s:define_highlights()
 
 augroup the-ocamlspot
-  autocmd! ColorScheme *
-  autocmd! * <buffer>
+  autocmd!
   autocmd CursorHold <buffer> call the_ocamlspot#auto_type()
   autocmd CursorMoved <buffer> call the_ocamlspot#clear_highlight()
   autocmd ColorScheme * call s:define_highlights()
