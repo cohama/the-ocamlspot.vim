@@ -27,7 +27,7 @@ function! the_ocamlspot#auto_type()
   if g:the_ocamlspot_auto_type_always
     call the_ocamlspot#main('type')
   else
-    let allerrors = getqflist() + getloclist(0) + get(b:, 'syntastic_loclist', [])
+    let allerrors = getqflist() + getloclist(0) + s:get_syntastic_loclist()
     let current_line = line('.')
     let on_line = filter(copy(allerrors), 'v:val.lnum == ' . current_line)
     if len(on_line) == 0
@@ -275,3 +275,7 @@ function! s:balloon_buffer_cursor()
   return [bufname(v:beval_bufnr), v:beval_lnum, v:beval_col - 1]
 endfunction
 
+function! s:get_syntastic_loclist()
+  let locObj = get(b:, 'syntastic_loclist', [])
+  return type(locObj) ==# type([]) ? locObj : locObj.toRaw()
+endfunction
