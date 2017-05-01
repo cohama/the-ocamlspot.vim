@@ -1,13 +1,20 @@
 " the-ocamlspot entry point
 function! the_ocamlspot#main(query_type, ...)
   let target = s:current_buffer_cursor()
-  let result = s:run_ocaml_spot(target)
+
+  if a:query_type ==# 'interface'
+    let result = s:run_ocaml_spot_i(target)
+  else
+    let result = s:run_ocaml_spot(target)
+  endif
 
   try
     if a:query_type ==# 'type'
       call s:get_ocaml_type(result)
     elseif a:query_type ==# 'def'
       call s:open_definition(result, a:1)
+    elseif a:query_type ==# 'interface'
+      call s:open_interface(result, a:1)
     endif
   catch
     let g:Result = result
@@ -59,6 +66,17 @@ function! s:run_ocaml_spot(bufname_line_col)
   let line = a:bufname_line_col[1]
   let col = a:bufname_line_col[2]
   let ocamlspot_cmd = printf('ocamlspot %s:l%dc%d 2>&1', bufname, line, col)
+  let result = system(ocamlspot_cmd)
+  let g:ocamlspot_result = result
+  return s:parse_result(result)
+endfunction
+
+" run ocamlspot to search .mli file path
+function! s:run_ocaml_spot_i(bufname_line_col)
+  let bufname = a:bufname_line_col[0]
+  let line = a:bufname_line_col[1]
+  let col = a:bufname_line_col[2]
+  let ocamlspot_cmd = printf('ocamlspot --interface %s:l%dc%d 2>&1', bufname, line, col)
   let result = system(ocamlspot_cmd)
   let g:ocamlspot_result = result
   return s:parse_result(result)
@@ -165,6 +183,37 @@ function! s:open_definition(ocamlspot_result, open_cmd)
 
   if empty(spot)
     echo 'No definition found'
+    call s:get_ocaml_type(a:ocamlspot_result)
+    return
+  endif
+
+  let spot_dict = s:parse_path_range(spot)
+
+  if a:open_cmd ==# 'pedit'
+
+    let line = spot_dict.range.start[0]
+    let clear_hi_cmd = 'call\ the_ocamlspot#clear_highlight()'
+    let escaped_range_regex = escape(s:range_to_regex(spot_dict.range), '\')
+
+    let highlight_cmd = 'call\ matchadd("TheOCamlSpotSpot",''' . escaped_range_regex . "')"
+    execute a:open_cmd . ' +' . line . '|' . clear_hi_cmd . '|' . highlight_cmd . ' ' . spot_dict.path
+
+  else
+    let s:clear_highlight_discard_once = 1
+    keepjumps execute a:open_cmd . ' ' . spot_dict.path
+    call cursor(spot_dict.range.start[0], spot_dict.range.start[1] + 1)
+    call s:highlight_tree(spot, 'Spot')
+  endif
+endfunction
+
+function! s:open_interface(ocamlspot_result, open_cmd)
+  let tree = get(a:ocamlspot_result, 'XTree', '')
+  call s:highlight_tree(tree, 'Tree')
+
+  let spot = get(a:ocamlspot_result, 'Spot', '')
+
+  if empty(spot)
+    echo 'No interface found'
     call s:get_ocaml_type(a:ocamlspot_result)
     return
   endif
