@@ -30,6 +30,7 @@ endif
 
 command! -buffer -nargs=0 TheOCamlType call the_ocamlspot#main('type')
 command! -buffer -nargs=0 TheOCamlDefPreview call the_ocamlspot#main('def', 'pedit')
+command! -buffer -nargs=0 TheOCamlInterfacePreview call the_ocamlspot#main('interface', 'pedit')
 command! -buffer -nargs=0 TheOCamlDefSplit call the_ocamlspot#main('def', 'split')
 command! -buffer -nargs=0 TheOCamlDefVSplit call the_ocamlspot#main('def', 'vsplit')
 command! -buffer -nargs=0 TheOCamlDefTab call the_ocamlspot#main('def', 'tabedit')
@@ -37,6 +38,7 @@ command! -buffer -nargs=0 TheOCamlDefEdit call the_ocamlspot#main('def', 'edit')
 
 nnoremap <script> <Plug>(the-ocamlspot-type)        :<C-u>TheOCamlType<CR>
 nnoremap <script> <Plug>(the-ocamlspot-def-preview) :<C-u>TheOCamlDefPreview<CR>
+nnoremap <script> <Plug>(the-ocamlspot-interface-preview) :<C-u>TheOCamlInterfacePreview<CR>
 nnoremap <script> <Plug>(the-ocamlspot-def-split)   :<C-u>TheOCamlDefSplit<CR>
 nnoremap <script> <Plug>(the-ocamlspot-def-vsplit)  :<C-u>TheOCamlDefVSplit<CR>
 nnoremap <script> <Plug>(the-ocamlspot-def-tab)     :<C-u>TheOCamlDefTab<CR>
@@ -62,6 +64,7 @@ augroup END
 if !g:the_ocamlspot_no_default_key_mappings
   nmap <buffer> <Leader>ot <Plug>(the-ocamlspot-type)
   nmap <buffer> <Leader>op <Plug>(the-ocamlspot-def-preview)
+  nmap <buffer> <Leader>oi <Plug>(the-ocamlspot-interface-preview)
 endif
 
 if has('gui_running') && has('balloon_eval')
